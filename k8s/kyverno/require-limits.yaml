@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: guardrails-require-resource-limits
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: require-cpu-and-memory-limits
+      match:
+        any:
+          - resources:
+              kinds: ["Pod"]
+              namespaces: ["guardrails"]
+      validate:
+        message: "Every container must set CPU and memory limits."
+        pattern:
+          spec:
+            containers:
+              - resources:
+                  limits:
+                    cpu: "?*"
+                    memory: "?*"

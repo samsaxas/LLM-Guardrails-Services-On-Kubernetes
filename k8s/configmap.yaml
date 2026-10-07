@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: guardrails-config
+  namespace: guardrails
+data:
+  MAX_TEXT_CHARS: "20000"
+  BLOCK_CATEGORIES: "injection,secret,email,phone"

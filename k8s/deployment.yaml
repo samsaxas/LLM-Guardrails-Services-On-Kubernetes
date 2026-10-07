@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guardrails
+  namespace: guardrails
+  labels:
+    app: guardrails
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: guardrails
+  template:
+    metadata:
+      labels:
+        app: guardrails
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: guardrails
+          image: guardrails-service:0.1.0
+          imagePullPolicy: IfNotPresent   # image is loaded into kind, not pulled from a registry
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: guardrails-config
+          env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: guardrails-secrets
+                  key: API_KEY
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8000 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet: { path: /readyz, port: 8000 }
+            initialDelaySeconds: 3
+            periodSeconds: 5

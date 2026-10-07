@@ -1,0 +1,15 @@
+# Must be ADMITTED (control case: proves the policies are not just blocking everything)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: good-pod
+  namespace: guardrails
+spec:
+  containers:
+    - name: c
+      image: busybox:1.36
+      command: ["sleep", "3600"]
+      securityContext:
+        privileged: false
+      resources:
+        limits: { cpu: 100m, memory: 64Mi }
