@@ -1,5 +1,6 @@
-```markdown
 # LLM Guardrails Service on Kubernetes
+
+```markdown
 
 A small, production-style **guardrails microservice** that screens LLM **prompts** and **model responses** before they reach the model or the user. It flags prompt-injection / jailbreak attempts and sensitive data (API keys, e-mails, phone numbers) and returns an `allow` / `block` decision as JSON.
 
