@@ -368,7 +368,9 @@ kubectl apply -f k8s/tests/bad-privileged-pod.yaml
 kubectl apply -f k8s/tests/bad-no-limits-pod.yaml
 ```
 
-<img width="1342" height="144" alt="Pod without resource limits denied by Kyverno" src="https://github.com/user-attachments/assets/994d11d1-2476-4507-b7e8-b3e4b3a0ba2a" />
+![Pod without resource limits denied by Kyverno](https://github.com/user-attachments/assets/994d11d1-2476-4507-b7e8-570826ae62d1)
+
+<!-- <img width="1342" height="144" alt="Pod without resource limits denied by Kyverno" src="https://github.com/user-attachments/assets/994d11d1-2476-4507-b7e8-b3e4b3a0ba2a" /> -->
 
 **Compliant pod is admitted (control case)**
 
